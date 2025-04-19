@@ -1,4 +1,4 @@
-package com.lucasbrunkhorst.hubspot_integration;
+package com.lucasbrunkhorst.hubspotintegration;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
