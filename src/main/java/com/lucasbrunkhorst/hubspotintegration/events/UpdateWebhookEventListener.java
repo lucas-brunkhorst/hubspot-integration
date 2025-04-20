@@ -1,0 +1,16 @@
+package com.lucasbrunkhorst.hubspotintegration.events;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.lucasbrunkhorst.hubspotintegration.record.WebhookEventDTO;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+
+@Component
+@Slf4j
+public class UpdateWebhookEventListener implements WebhookEventListener {
+
+    @Override
+    public void getSubscriptionType(WebhookEventDTO event) {
+        log.info("Evento de alteração recebido: {}", event);
+    }
+}
