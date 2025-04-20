@@ -1,8 +1,10 @@
 package com.lucasbrunkhorst.hubspotintegration.controller;
 
 import com.lucasbrunkhorst.hubspotintegration.service.HubSpotOAuthService;
-import lombok.RequiredArgsConstructor;
+import com.lucasbrunkhorst.hubspotintegration.service.TokenService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -10,18 +12,30 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/oauth")
-@RequiredArgsConstructor
 @Slf4j
 public class OAuthController {
 
     private final HubSpotOAuthService hubSpotOAuthService;
+    private final TokenService tokenService;
+
+    public OAuthController(HubSpotOAuthService hubSpotOAuthService, TokenService tokenService) {
+        this.hubSpotOAuthService = hubSpotOAuthService;
+        this.tokenService = tokenService;
+    }
 
     /**
      * Gera a URL de autorização para redirecionar o usuário à tela da HubSpot.
      */
     @GetMapping("/authorize")
-    public String generateAuthorizationUrl() {
-        return hubSpotOAuthService.generateAuthorizationUrl();
+    public ResponseEntity<String> generateAuthorizationUrl() {
+        try {
+            String authorizationUrl = hubSpotOAuthService.generateAuthorizationUrl();
+            return ResponseEntity.ok(authorizationUrl);
+        } catch (Exception e) {
+            log.error("Erro ao gerar URL de autorização: {}", e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Erro ao gerar URL de autorização.");
+        }
     }
 
     /**
@@ -29,13 +43,14 @@ public class OAuthController {
      * Faz a troca do código por token e armazena no cache.
      */
     @GetMapping("/callback")
-    public String handleCallback(@RequestParam("code") String code) {
+    public ResponseEntity<String> handleCallback(@RequestParam("code") String code) {
         try {
-            hubSpotOAuthService.exchangeCodeForToken(code);
-            return "Token de acesso armazenado com sucesso.";
+            tokenService.exchangeCodeForToken(code);
+            return ResponseEntity.ok("Token de acesso armazenado com sucesso.");
         } catch (Exception e) {
             log.error("Erro ao processar callback: {}", e.getMessage(), e);
-            return "Erro ao processar callback.";
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Erro ao processar callback.");
         }
     }
 }

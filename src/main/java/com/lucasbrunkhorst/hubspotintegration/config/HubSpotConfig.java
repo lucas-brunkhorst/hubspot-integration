@@ -20,13 +20,13 @@ public class HubSpotConfig {
     @Value("${hubspot.scopes}")
     private String scopes;
 
-    @Value("${hubspot.base.auth.url:https://app.hubspot.com/oauth/authorize}")
+    @Value("${hubspot.base.auth.url}")
     private String authUrl;
 
-    @Value("${hubspot.token.url:https://api.hubapi.com/oauth/v1/token}")
+    @Value("${hubspot.token.url}")
     private String tokenUrl;
 
-    @Value("${hubspot.contact.url:https://api.hubapi.com/crm/v3/objects/contacts}")
+    @Value("${hubspot.contact.url}")
     private String contactUrl;
 
     @Value("${hubspot.webhook.secret}")

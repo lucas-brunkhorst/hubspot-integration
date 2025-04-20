@@ -1,32 +1,34 @@
 package com.lucasbrunkhorst.hubspotintegration.service;
 
 import com.lucasbrunkhorst.hubspotintegration.config.HubSpotConfig;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
 @Service
-@RequiredArgsConstructor
 public class HubSpotOAuthService {
 
+    private static final String AUTHORIZATION_URL_TEMPLATE = "%s?client_id=%s&scope=%s&redirect_uri=%s";
     private final HubSpotConfig hubSpotConfig;
-    private final TokenService tokenService;
+
+    public HubSpotOAuthService(HubSpotConfig hubSpotConfig) {
+        this.hubSpotConfig = hubSpotConfig;
+    }
 
     public String generateAuthorizationUrl() {
+        if (hubSpotConfig.getClientId() == null || hubSpotConfig.getScopes() == null || hubSpotConfig.getRedirectUri() == null) {
+            throw new IllegalStateException("Os parametros clientId, scopes ou redirectUri não estao configurados corretamente.");
+        }
+
         String encodedRedirectUri = URLEncoder.encode(hubSpotConfig.getRedirectUri(), StandardCharsets.UTF_8);
         String encodedScopes = URLEncoder.encode(hubSpotConfig.getScopes(), StandardCharsets.UTF_8);
 
-        return String.format("%s?client_id=%s&scope=%s&redirect_uri=%s",
+        return String.format(AUTHORIZATION_URL_TEMPLATE,
                 hubSpotConfig.getAuthUrl(),
                 hubSpotConfig.getClientId(),
                 encodedScopes,
                 encodedRedirectUri
         );
-    }
-
-    public void exchangeCodeForToken(String code) {
-        tokenService.exchangeCodeForToken(hubSpotConfig, code);
     }
 }
