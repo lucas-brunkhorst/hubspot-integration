@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 public class CreateWebhookEventListener implements WebhookEventListener {
 
     @Override
-    public void getSubscriptionType(WebhookEventDTO event) {
+    public void handleEvent(WebhookEventDTO event) {
         log.info("Evento de criação recebido: {}", event);
     }
 }

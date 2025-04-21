@@ -1,5 +1,6 @@
 package com.lucasbrunkhorst.hubspotintegration.controller;
 
+import com.lucasbrunkhorst.hubspotintegration.common.MessageConstants;
 import com.lucasbrunkhorst.hubspotintegration.exception.WebHookException;
 import com.lucasbrunkhorst.hubspotintegration.service.WebHookService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -18,8 +19,7 @@ public class WebhookController {
 
     private final WebHookService webhookService;
 
-    @Operation(summary = "Processa eventos recebidos do HubSpot via Webhook",
-            description = "Este endpoint valida a assinatura e processa os eventos enviados pelo HubSpot através de um webhook.")
+    @Operation(summary = "Processa eventos recebidos do HubSpot via Webhook")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Eventos processados com sucesso."),
             @ApiResponse(responseCode = "400", description = "Erro de assinatura inválida ou erro de processamento dos eventos.")
@@ -28,7 +28,7 @@ public class WebhookController {
     public ResponseEntity<String> handleWebhook(@RequestHeader("X-HubSpot-Signature") String signature, @RequestBody String rawBody) {
         try {
             webhookService.processWebhook(rawBody, signature);
-            return ResponseEntity.ok("Eventos processados com sucesso");
+            return ResponseEntity.ok(MessageConstants.EVENTS_PROCESSED_SUCCESS);
         } catch (WebHookException e) {
             log.error("Erro ao processar o webhook: {}", e.getMessage());
             return ResponseEntity.status(e.getStatus()).body(e.getMessage());
