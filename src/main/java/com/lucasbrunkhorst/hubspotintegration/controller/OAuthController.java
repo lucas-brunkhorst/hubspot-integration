@@ -1,7 +1,8 @@
 package com.lucasbrunkhorst.hubspotintegration.controller;
 
 import com.lucasbrunkhorst.hubspotintegration.service.HubSpotOAuthService;
-import com.lucasbrunkhorst.hubspotintegration.service.TokenService;
+import com.lucasbrunkhorst.hubspotintegration.service.HubSpotOAuthServiceImpl;
+import com.lucasbrunkhorst.hubspotintegration.service.OAuthTokenService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,11 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class OAuthController {
 
     private final HubSpotOAuthService hubSpotOAuthService;
-    private final TokenService tokenService;
+    private final OAuthTokenService authTokenService;
 
-    public OAuthController(HubSpotOAuthService hubSpotOAuthService, TokenService tokenService) {
+    public OAuthController(HubSpotOAuthServiceImpl hubSpotOAuthService, OAuthTokenService authTokenService) {
         this.hubSpotOAuthService = hubSpotOAuthService;
-        this.tokenService = tokenService;
+        this.authTokenService = authTokenService;
     }
 
     /**
@@ -45,7 +46,7 @@ public class OAuthController {
     @GetMapping("/callback")
     public ResponseEntity<String> handleCallback(@RequestParam("code") String code) {
         try {
-            tokenService.exchangeCodeForToken(code);
+            authTokenService.exchangeCodeForToken(code);
             return ResponseEntity.ok("Token de acesso armazenado com sucesso.");
         } catch (Exception e) {
             log.error("Erro ao processar callback: {}", e.getMessage(), e);

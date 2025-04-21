@@ -1,23 +1,21 @@
-package com.lucasbrunkhorst.hubspotintegration.utils;
+package com.lucasbrunkhorst.hubspotintegration.client;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lucasbrunkhorst.hubspotintegration.exception.RateLimitException;
-import lombok.experimental.UtilityClass;
 import org.springframework.http.*;
+import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
-@UtilityClass
-public class HttpUtil {
+@Service
+public class HubSpotHttpClientImpl implements HubSpotHttpClient {
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    /**
-     * Realiza uma requisição POST com o content-type x-www-form-urlencoded.
-     */
-    public static JsonNode postForm(RestTemplate restTemplate, String url, MultiValueMap<String, String> params) {
+    @Override
+    public JsonNode postForm(RestTemplate restTemplate, String url, MultiValueMap<String, String> params) {
         var headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
@@ -31,10 +29,8 @@ public class HttpUtil {
         }
     }
 
-    /**
-     * Realiza uma requisição POST com o content-type application/json e autenticação via Bearer Token.
-     */
-    public static JsonNode postJson(RestTemplate restTemplate, String url, Object body, String bearerToken) {
+    @Override
+    public JsonNode postJson(RestTemplate restTemplate, String url, Object body, String bearerToken) {
         var headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setBearerAuth(bearerToken);
