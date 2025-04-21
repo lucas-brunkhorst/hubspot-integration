@@ -5,6 +5,9 @@ import com.lucasbrunkhorst.hubspotintegration.exception.OAuthTokenException;
 import com.lucasbrunkhorst.hubspotintegration.record.ContactRequestDTO;
 import com.lucasbrunkhorst.hubspotintegration.service.HubSpotContactService;
 import com.lucasbrunkhorst.hubspotintegration.service.HubSpotContactServiceImpl;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -25,6 +28,14 @@ public class ContactController {
         this.hubSpotContactService = hubSpotContactService;
     }
 
+    @Operation(summary = "Cria um novo contato no HubSpot",
+            description = "Este endpoint cria um novo contato na plataforma HubSpot a partir dos dados fornecidos no corpo da requisição.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Contato criado com sucesso."),
+            @ApiResponse(responseCode = "400", description = "Dados inválidos fornecidos."),
+            @ApiResponse(responseCode = "401", description = "Erro de autenticação. Token inválido ou expirado."),
+            @ApiResponse(responseCode = "500", description = "Erro interno ao tentar criar o contato na API do HubSpot.")
+    })
     @PostMapping
     public ResponseEntity<String> createContact(@Valid @RequestBody ContactRequestDTO contactRequestDTO) {
         try {
