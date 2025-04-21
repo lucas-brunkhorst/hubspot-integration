@@ -3,5 +3,5 @@ package com.lucasbrunkhorst.hubspotintegration.events;
 import com.lucasbrunkhorst.hubspotintegration.record.WebhookEventDTO;
 
 public interface WebhookEventListener {
-    void getSubscriptionType(WebhookEventDTO event);
+    void handleEvent(WebhookEventDTO event);
 }

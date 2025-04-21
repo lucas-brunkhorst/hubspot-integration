@@ -1,6 +1,6 @@
 package com.lucasbrunkhorst.hubspotintegration.security;
 
-import com.lucasbrunkhorst.hubspotintegration.config.HubSpotConfig;
+import com.lucasbrunkhorst.hubspotintegration.config.HubSpotProperties;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.stereotype.Component;
 
@@ -10,15 +10,15 @@ import java.security.MessageDigest;
 @Component
 public class WebHookSignatureValidator {
 
-    private final HubSpotConfig config;
+    private final HubSpotProperties config;
 
-    public WebHookSignatureValidator(HubSpotConfig config) {
+    public WebHookSignatureValidator(HubSpotProperties config) {
         this.config = config;
     }
 
     public boolean isSignatureValid(String rawBody, String receivedSignature) {
         try {
-            String computedSignature = DigestUtils.sha256Hex(config.getClientSecret() + rawBody);
+            String computedSignature = DigestUtils.sha256Hex(config.getClient().getSecret() + rawBody);
 
             return MessageDigest.isEqual(
                     computedSignature.getBytes(StandardCharsets.UTF_8),

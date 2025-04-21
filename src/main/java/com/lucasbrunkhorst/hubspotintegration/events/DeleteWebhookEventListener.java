@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 public class DeleteWebhookEventListener implements WebhookEventListener {
 
     @Override
-    public void getSubscriptionType(WebhookEventDTO event) {
+    public void handleEvent(WebhookEventDTO event) {
         log.info("Evento de remoção recebido: {}", event);
     }
 }
