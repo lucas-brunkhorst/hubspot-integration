@@ -13,7 +13,7 @@ hubspot:
   token:
     url: https://api.hubapi.com/oauth/v1/token
   contact:
-    url: https://api.hubapi.com/contacts/v1/contact
+    url: https://api.hubapi.com/crm/v3/objects/contacts
   webhook:
     secret: <SEU_WEBHOOK_SECRET>
 
