@@ -8,6 +8,7 @@ Este projeto fornece uma integração simples com a API da HubSpot utilizando OA
 - Troca de código de autorização por token de acesso
 - Criação de contatos na HubSpot
 - Tratamento de erros e exceções
+- Listeners para os eventos emitidos do webhook
 
 ## Tecnologias Utilizadas
 
