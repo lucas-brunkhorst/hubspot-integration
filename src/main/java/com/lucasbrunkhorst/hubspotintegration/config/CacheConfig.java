@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 public class CacheConfig {
 
     @Bean
-    public com.github.benmanes.caffeine.cache.Cache<String, String> tokenCache() {
+    public com.github.benmanes.caffeine.cache.Cache<String, String> hubSpotTokenCache() {
         return Caffeine.newBuilder()
                 .expireAfterWrite(3500, TimeUnit.SECONDS)
                 .maximumSize(10)

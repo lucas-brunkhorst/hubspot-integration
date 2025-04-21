@@ -1,7 +1,7 @@
 package com.lucasbrunkhorst.hubspotintegration.service.impl;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.lucasbrunkhorst.hubspotintegration.feign.HubSpotFeignClient;
+import com.lucasbrunkhorst.hubspotintegration.client.HubSpotFeignClient;
 import com.lucasbrunkhorst.hubspotintegration.common.MessageConstants;
 import com.lucasbrunkhorst.hubspotintegration.exception.HubSpotApiException;
 import com.lucasbrunkhorst.hubspotintegration.record.ContactRequestDTO;
