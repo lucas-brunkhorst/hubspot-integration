@@ -1,9 +1,11 @@
 hubspot:
+  api:
+    base-url: https://api.hubapi.com
   client:
     id: <SEU_CLIENT_ID>
     secret: <SEU_CLIENT_SECRET>
   redirect:
-    uri: http://<URL_DO_NGROK>/oauth/callback  # Substitua pela URL fornecida pelo ngrok
+    uri: https://<URL_DO_NGROK>/oauth/callback  # Substitua pela URL fornecida pelo ngrok
   base:
     auth:
       url: https://auth.hubspot.com/oauth/authorize
