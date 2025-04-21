@@ -1,0 +1,29 @@
+hubspot:
+  client:
+    id: <SEU_CLIENT_ID>
+    secret: <SEU_CLIENT_SECRET>
+  redirect:
+    uri: http://<URL_DO_NGROK>/oauth/callback  # Substitua pela URL fornecida pelo ngrok
+  base:
+    auth:
+      url: https://auth.hubspot.com/oauth/authorize
+  scopes: # Escopos definidos no HubSpot
+  token:
+    url: https://api.hubapi.com/oauth/v1/token
+  contact:
+    url: https://api.hubapi.com/contacts/v1/contact
+  webhook:
+    secret: <SEU_WEBHOOK_SECRET>
+
+resilience4j:
+  retry:
+    instances:
+      contactCreation:
+        max-attempts: 3
+        wait-duration: 1s
+        retry-exceptions:
+          - org.springframework.web.client.HttpServerErrorException
+          - org.springframework.web.client.HttpClientErrorException
+        exponential-backoff:
+          enabled: true
+          multiplier: 2
